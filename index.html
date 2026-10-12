@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 30px;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 6px;
+            border-radius: 6px;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        li {
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Product Inventory</h1>
+
+        <input id="name" placeholder="Product name">
+        <input id="price" type="number" placeholder="Price">
+        <button onclick="addProduct()">Add Product</button>
+
+        <h2>Products</h2>
+        <ul id="products"></ul>
+        <h3 id="total">Total: $0</h3>
+    </div>
+
+    <script>
+        const inventory = [
+            { name: "Laptop", price: 800 },
+            { name: "Mouse", price: 25 }
+        ];
+
+        function addProduct() {
+            const name = document.getElementById("name").value.trim();
+            const price = Number(document.getElementById("price").value);
+
+            if (name === "" || price <= 0 ||
+                document.getElementById("price").value === "") {
+                alert("Please enter a valid name and price!");
+                return;
+            }
+
+            inventory.push({ name, price });
+            document.getElementById("name").value = "";
+            document.getElementById("price").value = "";
+            showProducts();
+        }
+
+        function showProducts() {
+            const list = document.getElementById("products");
+            list.innerHTML = "";
+            let total = 0;
+
+            inventory.forEach(product => {
+                const category = product.price < 50
+                    ? "Budget"
+                    : product.price < 200
+                    ? "Standard"
+                    : "Premium";
+
+                const item = document.createElement("li");
+                item.textContent =
+                    `${product.name} ($${product.price}) - ${category}`;
+                list.appendChild(item);
+                total += product.price;
+            });
+
+            document.getElementById("total").textContent =
+                `Total Inventory Value: $${total}`;
+        }
+
+        showProducts();
+    </script>
+</body>
+</html>
